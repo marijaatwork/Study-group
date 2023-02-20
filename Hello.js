@@ -1,5 +1,8 @@
-function printHelloName (name){
-    console.log ('Hello' + ' ' + name,  'Hello' + ' ' + name,  'Hello' + ' ' + name,'Hello' + ' ' + name, 'Hello' + ' ' + name,  'Hello' + ' ' + name)
-
+function printHelloName (Hello, name){
+    console.log ( Hello + ' ' + name)  
 }
-printHelloName ('Marija')
+//printHelloName  ('Hello' , 'Relja')
+
+for (let i=0; i<5; i++){
+    console.log ('Hello' , 'Marija')
+}
