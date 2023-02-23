@@ -1,8 +1,8 @@
 describe ('Challenge 3',() =>{
     it ('test case 1',() => {
 cy.visit('https://work.co')
-cy.title('eq', 'Work & Co | Digital Product Agency')
-cy.get("[data-test-id='header-title-text']").contains('We design and ship digital products that transform companies.')
+cy.title().should('eq', 'Work & Co | Digital Product Agency')
+cy.get("[data-test-id='header-title-text']").should('have.text', 'We design and ship digital products that transform companies.')
 
     })
     it ('test case 2',() => {
