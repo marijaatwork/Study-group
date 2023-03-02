@@ -18,4 +18,13 @@ describe('Challenge 4 new', () => {
         cy.get("[data-test='login-button']").click()
         cy.url().should('include', '/inventory.html') 
     })
+    it('test case logout', () =>{
+        cy.visit('https://www.saucedemo.com/')
+        cy.get("[data-test='username']").type('standard_user')
+        cy.get("[data-test='password']").type('secret_sauce')
+        cy.get("[data-test='login-button']").click()
+        cy.get("[id='react-burger-menu-btn']").click()
+        cy.get("[id='logout_sidebar_link']").click()
+        cy.url().should('eq', 'https://www.saucedemo.com/')
     })
+})
