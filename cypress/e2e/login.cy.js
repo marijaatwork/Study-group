@@ -1,30 +1,39 @@
+import inventoryPage from "../support/page_object/inventoryPage";
+import landingPage from "../support/page_object/landingPage";
+
+
 describe('Challenge 4 new', () => {
     it('test case 1', () => {
-        cy.visit('https://www.saucedemo.com/')
-        cy.title().should('eq', 'Swag Labs')
+        landingPage.open();
+       landingPage.getTitle().should('eq', 'Swag Labs')
     })
+
     it('test case 2', () =>{
-        cy.visit('https://www.saucedemo.com/')
-        cy.get("[data-test='username']").type('marija@test.com')
-        cy.get("[data-test='password']").type('secret_sauce')
-        cy.get("[data-test='login-button']").click()
-        cy.url().should('eq', 'https://www.saucedemo.com/')
-        cy.get("[data-test='error']").should('have.text', 'Epic sadface: Username and password do not match any user in this service')
+        landingPage.open();
+        landingPage.getUsername().type('marija@test.com');
+        landingPage.getPassword().type('secret_sauce');
+        landingPage.getLoginButton().click();
+        landingPage.getUrl().should('eq', 'https://www.saucedemo.com/')
+        landingPage.getLoginError().should('have.text', 'Epic sadface: Username and password do not match any user in this service');
+        
     })
     it('test case 3', () =>{
-        cy.visit('https://www.saucedemo.com/')
-        cy.get("[data-test='username']").type('standard_user')
-        cy.get("[data-test='password']").type('secret_sauce')
-        cy.get("[data-test='login-button']").click()
-        cy.url().should('include', '/inventory.html') 
+        landingPage.open();
+        landingPage.getUsername().type('standard_user');
+        landingPage.getPassword().type('secret_sauce');
+        landingPage.getLoginButton().click();
+        inventoryPage.getUrl().should('eq', 'https://www.saucedemo.com/inventory.html');
     })
+
     it('test case logout', () =>{
-        cy.visit('https://www.saucedemo.com/')
-        cy.get("[data-test='username']").type('standard_user')
-        cy.get("[data-test='password']").type('secret_sauce')
-        cy.get("[data-test='login-button']").click()
-        cy.get("[id='react-burger-menu-btn']").click()
-        cy.get("[id='logout_sidebar_link']").click()
-        cy.url().should('eq', 'https://www.saucedemo.com/')
+
+        landingPage.open();
+        landingPage.getUsername().type('standard_user');
+        landingPage.getPassword().type('secret_sauce');
+        landingPage.getLoginButton().click();
+        inventoryPage.getMenuButton().click();
+        inventoryPage.getLogoutButton().click();
+        landingPage.getUrl().should('eq', 'https://www.saucedemo.com/');
     })
+
 })

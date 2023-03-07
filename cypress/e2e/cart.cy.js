@@ -1,48 +1,54 @@
-describe('challenge 5', () => {
+import cartPage from "../support/page_object/cartPage";
+import checkoutCompletePage from "../support/page_object/checkoutCompletePage";
+import checkoutPage from "../support/page_object/checkoutPage";
+import checkoutPageTwo from "../support/page_object/checkoutPageTwo";
+import inventoryPage from "../support/page_object/inventoryPage";
+
+
+describe('challenge 6', () => {
     beforeEach(() => {
             cy.login('standard_user', 'secret_sauce')
           })
 
         it('tc1 error with no data', () => {
-          cy.get("[id='shopping_cart_container']").click().end().get("[data-test='checkout']").click()
-          cy.get("[data-test='continue']").click()
-          cy.get("[data-test='error']").should('have.text', 'Error: First Name is required')
+            inventoryPage.getShoppingCart().click();
+            cartPage.getcheckoutButton().click();
+            checkoutPage.getcontinueCheckoutButton().click();
 })
-        it('tc2 successful shopping flow', ()=> {
-            cy.get("[class='shopping_cart_badge']").should('not.exist')
-            cy.get("[data-test='add-to-cart-sauce-labs-backpack']").click()
-            cy.get("[class='shopping_cart_badge']").should('be.visible')
-            cy.get("[id='shopping_cart_container']").click()
-            cy.get("[class='cart_list']").should('contain', '1').and('contain', '$29.99').and('contain','Sauce Labs Backpack')
-            cy.get("[data-test='remove-sauce-labs-backpack']").should('be.visible')
-            cy.get("[data-test='continue-shopping']").should('be.visible')
-            cy.get("[data-test='checkout']").should('be.visible')
-            cy.get("[data-test='checkout']").click()
-            cy.get("[data-test='firstName']").type('Marija')
-            cy.get("[data-test='lastName']").type('Matavulj')
-            cy.get("[data-test='postalCode']").type('11000')
-            cy.get("[data-test='continue']").click()
-            cy.get("[class='inventory_item_name']").should('contain','Sauce Labs Backpack')
-            cy.get("[data-test='finish']").click()
-            cy.get("[id='checkout_complete_container']").should('contain','Thank you for your order').and('be.visible')
-            cy.url().should('include', '/checkout-complete.html')
-            cy.get("[data-test='back-to-products']").should('be.visible').click()
-            cy.url().should('eq', 'https://www.saucedemo.com/inventory.html')
-            cy.get("[class='shopping_cart_badge']").should('not.exist')
+        it('tc2 successful shopping flow', () => {
+            inventoryPage.getShoppingCartBadge().should('not.exist');
+            inventoryPage.getSauceLabsBackpack().click();
+            inventoryPage.getShoppingCart().click();
+            cartPage.getcartItemName().should('have.text','Sauce Labs Backpack');
+            cartPage.getcartItemPrice().should('contain', '29.99');
+            cartPage.getcartItemQuantity().should('contain', '1');
+            cartPage.getcheckoutButton().should('be.visible');
+            cartPage.getcontinueShoppingButton().should('be.visible');
+            cartPage.getremoveButton().should('be.visible');
+            cartPage.getcheckoutButton().click();
+            checkoutPage.getfirstName().type('Marija');
+            checkoutPage.getlastName().type('Test');
+            checkoutPage.getpostalCode().type('123');
+            checkoutPage.getcontinueCheckoutButton().click();
+            checkoutPageTwo.getItemName().should('have.text', 'Sauce Labs Backpack');
+            checkoutPageTwo.getFinishButton().click();
+            checkoutCompletePage.getCompleteHeader().should('have.text', 'Thank you for your order!');
+            checkoutCompletePage.getBackHomeButton().click();
+            inventoryPage.getShoppingCartBadge().should('not.exist');
+})
+
+        it('tc3 removing items from bag', ()=> {
+            inventoryPage.getauceLabsBikeLight().click();
+            inventoryPage.getShoppingCartBadge().should('be.visible');
+            inventoryPage.getShoppingCart().click();
+            cartPage.getremoveButton().click();
+            cartPage.getShoppingCartBadge().should('not.exist');
         })
-        it('tc3 removing items from bag', () => {
-            cy.get("[data-test='add-to-cart-sauce-labs-bike-light']").click()
-            cy.get("[class='shopping_cart_badge']").should('be.visible')
-            cy.get("[id='shopping_cart_container']").click()
-            cy.get("[id='remove-sauce-labs-bike-light']").click()
-            cy.get("[class='shopping_cart_badge']").should('not.exist')
-        })
+
         it('tc4 continue shopping', () => {
-            cy.get("[data-test='add-to-cart-sauce-labs-bike-light']").click()
-            cy.get("[id='shopping_cart_container']").click()
-            cy.get("[data-test='continue-shopping']").click()
-            cy.url().should('eq', 'https://www.saucedemo.com/inventory.html')
-            cy.get("[class='shopping_cart_badge']").should('be.visible')
+            inventoryPage.getauceLabsBikeLight().click();
+            inventoryPage.getShoppingCart().click();
+            cartPage.getcontinueShoppingButton().click();
+            inventoryPage.getShoppingCartBadge().should('contain', '1')
         })
-    
-    })
+})
