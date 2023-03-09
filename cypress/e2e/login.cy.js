@@ -1,5 +1,5 @@
-import inventoryPage from "../support/page_object/inventoryPage";
-import landingPage from "../support/page_object/landingPage";
+import inventoryPage from "../support/page_object/InventoryPage";
+import landingPage from "../support/page_object/LandingPage";
 
 
 describe('Challenge 4 new', () => {

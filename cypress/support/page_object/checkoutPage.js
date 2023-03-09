@@ -23,6 +23,22 @@ class CheckoutPage {
         return cy.get("[data-test='postalCode']")
     }
 
+    getItemName() {
+        return  cy.get("[class='inventory_item_name']");
+     }
+ 
+     getFinishButton(){
+         return cy.get("[data-test='finish']");
+     }
+
+     getCompleteHeader(){
+        return cy.get("[class='complete-header']");
+    }
+
+    getBackHomeButton(){
+        return cy.get("[data-test='back-to-products']");
+    }
+    
    }
 
  export default new CheckoutPage ();

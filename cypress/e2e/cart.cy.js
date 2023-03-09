@@ -1,13 +1,15 @@
-import cartPage from "../support/page_object/cartPage";
-import checkoutCompletePage from "../support/page_object/checkoutCompletePage";
-import checkoutPage from "../support/page_object/checkoutPage";
-import checkoutPageTwo from "../support/page_object/checkoutPageTwo";
-import inventoryPage from "../support/page_object/inventoryPage";
+import cartPage from "../support/page_object/CartPage";
+import checkoutPage from "../support/page_object/CheckoutPage";
+import inventoryPage from "../support/page_object/InventoryPage";
+import landingPage from "../support/page_object/landingPage";
 
 
 describe('challenge 6', () => {
     beforeEach(() => {
-            cy.login('standard_user', 'secret_sauce')
+            landingPage.open();
+            landingPage.getUsername().type('standard_user');
+            landingPage.getPassword().type('secret_sauce');
+            landingPage.getLoginButton().click();
           })
 
         it('tc1 error with no data', () => {
@@ -30,10 +32,10 @@ describe('challenge 6', () => {
             checkoutPage.getlastName().type('Test');
             checkoutPage.getpostalCode().type('123');
             checkoutPage.getcontinueCheckoutButton().click();
-            checkoutPageTwo.getItemName().should('have.text', 'Sauce Labs Backpack');
-            checkoutPageTwo.getFinishButton().click();
-            checkoutCompletePage.getCompleteHeader().should('have.text', 'Thank you for your order!');
-            checkoutCompletePage.getBackHomeButton().click();
+            checkoutPage.getItemName().should('have.text', 'Sauce Labs Backpack');
+            checkoutPage.getFinishButton().click();
+            checkoutPage.getCompleteHeader().should('have.text', 'Thank you for your order!');
+            checkoutPage.getBackHomeButton().click();
             inventoryPage.getShoppingCartBadge().should('not.exist');
 })
 
